@@ -301,6 +301,7 @@ class WifiChip : public V1_5::IWifiChip {
     std::vector<std::string> allocateBridgedApInstanceNames();
     std::string allocateStaIfaceName();
     bool writeRingbufferFilesInternal();
+    void QcRemoveAndClearDynamicIfaces();
     std::string getWlanIfaceNameWithType(IfaceType type, unsigned idx);
     void invalidateAndClearBridgedApAll();
     void invalidateAndClearBridgedAp(const std::string& br_name);
@@ -328,6 +329,9 @@ class WifiChip : public V1_5::IWifiChip {
     bool debug_ring_buffer_cb_registered_;
     hidl_callback_util::HidlCallbackHandler<V1_4::IWifiChipEventCallback>
         event_cb_handler_;
+
+    std::vector<sp<WifiApIface>> created_ap_ifaces_;
+    std::vector<sp<WifiStaIface>> created_sta_ifaces_;
 
     const std::function<void(const std::string&)> subsystemCallbackHandler_;
     std::map<std::string, std::vector<std::string>> br_ifaces_ap_instances_;
